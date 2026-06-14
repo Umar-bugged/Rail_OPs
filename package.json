@@ -1,0 +1,13 @@
+{
+  "name": "train-delay-predictor",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "frontend:dev": "npm --prefix frontend run dev",
+    "frontend:build": "npm --prefix frontend run build",
+    "backend:dev": "uvicorn backend.src.main:app --reload --host 0.0.0.0 --port 8000",
+    "train": "python -m backend.src.models.train",
+    "explain": "python -m backend.src.models.explain",
+    "test": "pytest"
+  }
+}
