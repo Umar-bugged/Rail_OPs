@@ -55,18 +55,6 @@ export function StationInsights() {
   const station = stationProfile.data;
   const train = trainProfile.data;
 
-  const nowMinutes = new Date().getHours() * 60 + new Date().getMinutes();
-  const upcomingTrains = (station?.upcoming_trains ?? [])
-    .filter((item) => {
-      const [hours, minutes] = item.departure_time.split(":").map(Number);
-      return hours * 60 + minutes > nowMinutes;
-    })
-    .sort((a, b) => {
-      const [ah, am] = a.departure_time.split(":").map(Number);
-      const [bh, bm] = b.departure_time.split(":").map(Number);
-      return ah * 60 + am - (bh * 60 + bm);
-    });
-
   return (
     <section className="page">
       <PageHeader eyebrow="Operations Lookup" title="Station & Train Insights" />
@@ -159,27 +147,6 @@ export function StationInsights() {
           </div>
         </div>
       </div>
-
-      <section className="ops-panel">
-        <div className="section-heading">
-          <h2>Upcoming Departures</h2>
-          <span>Trains leaving after current time</span>
-        </div>
-        {upcomingTrains.length > 0 ? (
-          <OperationsTable
-            columns={["Train", "Dest", "Departs", "Arrives", "Expected Delay"]}
-            rows={upcomingTrains.map((trainItem) => [
-              `${trainItem.train_number} ${trainItem.train_name}`,
-              trainItem.destination,
-              trainItem.departure_time,
-              trainItem.arrival_time,
-              `${trainItem.expected_delay} min`
-            ])}
-          />
-        ) : (
-          <div className="selection-summary">No departures remain after the current time.</div>
-        )}
-      </section>
 
       <div className="two-column">
         <section className="ops-panel">

@@ -94,11 +94,6 @@ export const stationProfile: StationProfile = {
     { train_number: 12627, train_name: "Karnataka Express", average_delay: 38 },
     { train_number: 11013, train_name: "Coimbatore Express", average_delay: 31 },
     { train_number: 22435, train_name: "Vande Bharat Express", average_delay: 16 }
-  ],
-  upcoming_trains: [
-    { train_number: 12627, train_name: "Karnataka Express", departure_time: "13:40", arrival_time: "15:30", expected_delay: 12, destination: "BPL" },
-    { train_number: 11013, train_name: "Coimbatore Express", departure_time: "14:20", arrival_time: "16:15", expected_delay: 18, destination: "MAS" },
-    { train_number: 22435, train_name: "Vande Bharat Express", departure_time: "15:05", arrival_time: "17:00", expected_delay: 7, destination: "NDLS" }
   ]
 };
 

@@ -80,14 +80,6 @@ export type StationProfile = {
   historical_average_delay: number;
   delay_trends: { date: string; average_delay: number }[];
   top_delayed_trains: { train_number: number; train_name: string; average_delay: number }[];
-  upcoming_trains: {
-    train_number: number;
-    train_name: string;
-    departure_time: string;
-    arrival_time: string;
-    expected_delay: number;
-    destination: string;
-  }[];
 };
 
 export type TrainProfile = {
