@@ -17,7 +17,7 @@ def create_app() -> FastAPI:
         description="Railway operations API for Indian train delay prediction.",
     )
     app.add_middleware(
-        CORSMiddleware,
+        CORSMiddleware, 
         allow_origins=settings.cors_origin_list,
         allow_credentials=True,
         allow_methods=["*"],
@@ -25,6 +25,18 @@ def create_app() -> FastAPI:
     )
     app.include_router(router, prefix=settings.api_prefix)
     return app
+    from fastapi.middleware.cors import CORSMiddleware
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[
+            "https://rail-ops-henna.vercel.app",
+            "http://localhost:5173"
+        ],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 
 app = create_app()
