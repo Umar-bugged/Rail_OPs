@@ -1,8 +1,23 @@
-import joblib
+import pandas as pd
+from pathlib import Path
 
-obj = joblib.load("models/train_delay_model.pkl")
+Path("data/lookups").mkdir(parents=True, exist_ok=True)
 
-print(type(obj))
+trains = pd.read_csv("../train_details.csv")
 
-if isinstance(obj, dict):
-    print(obj.keys())
+trains[
+    ["train_no", "train_name"]
+].drop_duplicates().to_json(
+    "data/lookups/trains.json",
+    orient="records",
+    indent=2
+)
+stations = pd.read_csv("../station_full_names.csv")
+
+stations[
+    ["station_name", "station_full_name"]
+].drop_duplicates().to_json(
+    "data/lookups/stations.json",
+    orient="records",
+    indent=2
+)

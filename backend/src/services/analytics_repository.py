@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 import logging
 from dataclasses import dataclass
 from functools import lru_cache
@@ -109,58 +112,92 @@ class AnalyticsRepository:
 
     def search_stations(self, query: str, limit: int = 8) -> list[dict[str, object]]:
         query = query.strip().upper()
+
         if not query:
             return []
 
-        station_index = self.snapshot().get("station_index", {})
-        if not isinstance(station_index, dict):
+        lookup_file = Path("data/lookups/stations.json")
+
+        if not lookup_file.exists():
+            LOGGER.warning("stations.json not found at %s", lookup_file)
+            return []
+
+        try:
+            stations = json.loads(lookup_file.read_text(encoding="utf-8"))
+        except Exception as exc:
+            LOGGER.error("Failed to load stations lookup file: %s", exc)
             return []
 
         matches = []
-        for station in station_index.values():
-            code = str(station.get("station_code", "")).upper()
-            name = str(station.get("station_name", "")).upper()
+
+        for station in stations:
+            code = str(station.get("station_name", "")).upper()
+            name = str(station.get("station_full_name", "")).upper()
+
             if query in code or query in name:
                 score = 0 if code.startswith(query) else 1 if name.startswith(query) else 2
-                delay = float(station.get("historical_average_delay", 0) or 0)
-                matches.append((score, -delay, code, station))
+
+                matches.append(
+                    (
+                        score,
+                        code,
+                        {
+                            "station_code": station.get("station_name"),
+                            "station_name": station.get("station_full_name"),
+                            "railway_zone": "",
+                            "historical_average_delay": 0,
+                        },
+                    )
+                )
 
         return [
-            {
-                "station_code": station.get("station_code"),
-                "station_name": station.get("station_name"),
-                "railway_zone": station.get("railway_zone"),
-                "historical_average_delay": station.get("historical_average_delay", 0),
-            }
-            for _, _, _, station in sorted(matches, key=lambda item: (item[0], item[1], item[2]))[:limit]
+            station
+            for _, _, station in sorted(matches, key=lambda item: (item[0], item[1]))[:limit]
         ]
 
     def search_trains(self, query: str, limit: int = 8) -> list[dict[str, object]]:
         query = query.strip().upper()
+
         if not query:
             return []
 
-        train_index = self.snapshot().get("train_index", {})
-        if not isinstance(train_index, dict):
+        lookup_file = Path("data/lookups/trains.json")
+
+        if not lookup_file.exists():
+            LOGGER.warning("trains.json not found at %s", lookup_file)
+            return []
+
+        try:
+            trains = json.loads(lookup_file.read_text(encoding="utf-8"))
+        except Exception as exc:
+            LOGGER.error("Failed to load trains lookup file: %s", exc)
             return []
 
         matches = []
-        for train_number, train in train_index.items():
-            number = str(train_number)
+
+        for train in trains:
+            number = str(train.get("train_no", ""))
             name = str(train.get("train_name", "")).upper()
+
             if query in number or query in name:
                 score = 0 if number.startswith(query) else 1 if name.startswith(query) else 2
-                delay = float(train.get("train_average_delay", 0) or 0)
-                matches.append((score, -delay, number, train))
+
+                matches.append(
+                    (
+                        score,
+                        number,
+                        {
+                            "train_number": int(train.get("train_no", 0)),
+                            "train_name": train.get("train_name", "Unknown Train"),
+                            "train_type": "",
+                            "train_average_delay": 0,
+                        },
+                    )
+                )
 
         return [
-            {
-                "train_number": int(number),
-                "train_name": train.get("train_name", "Unknown Train"),
-                "train_type": train.get("train_type", "Unknown"),
-                "train_average_delay": train.get("train_average_delay", 0),
-            }
-            for _, _, number, train in sorted(matches, key=lambda item: (item[0], item[1], item[2]))[:limit]
+            train
+            for _, _, train in sorted(matches, key=lambda item: (item[0], item[1]))[:limit]
         ]
 
     def prediction_profile(self, train_number: int, station_code: str, current_delay: float) -> dict[str, object]:
