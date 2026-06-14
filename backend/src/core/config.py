@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     delay_chunk_size: int = 150_000
     max_training_rows: int = 500_000
     max_analytics_rows: int = 200_000
-    cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
+    cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173,https://rail-dktjzljgb-hustl-3-r-s-projects.vercel.app"
 
     model_config = SettingsConfigDict(
         env_file=(".env", "../.env", "../../.env"),
