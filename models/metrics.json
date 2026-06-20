@@ -1,0 +1,140 @@
+{
+  "model_name": "XGBoost",
+  "model_version": "2026.06.13",
+  "trained_at": "2026-06-13T10:29:13.372166+00:00",
+  "metrics": {
+    "mae": 10.7734,
+    "rmse": 27.0104,
+    "r2": 0.9599
+  },
+  "candidate_metrics": {
+    "Linear Regression": {
+      "mae": 12.7675,
+      "rmse": 32.2983,
+      "r2": 0.9427
+    },
+    "Random Forest": {
+      "mae": 10.1273,
+      "rmse": 27.1093,
+      "r2": 0.9596
+    },
+    "XGBoost": {
+      "mae": 10.7734,
+      "rmse": 27.0104,
+      "r2": 0.9599
+    }
+  },
+  "dataset_size": 460479,
+  "feature_columns": [
+    "train_number",
+    "current_delay",
+    "month",
+    "day_of_week",
+    "weekend_flag",
+    "hour_of_day",
+    "station_sequence",
+    "distance_from_source",
+    "previous_station_delay",
+    "average_delay_last_7_days",
+    "average_delay_last_30_days",
+    "station_average_delay",
+    "train_average_delay",
+    "scheduled_arrival_hour",
+    "scheduled_departure_hour",
+    "arrival_day",
+    "station_code",
+    "railway_zone",
+    "train_type"
+  ],
+  "numeric_features": [
+    "train_number",
+    "current_delay",
+    "month",
+    "day_of_week",
+    "weekend_flag",
+    "hour_of_day",
+    "station_sequence",
+    "distance_from_source",
+    "previous_station_delay",
+    "average_delay_last_7_days",
+    "average_delay_last_30_days",
+    "station_average_delay",
+    "train_average_delay",
+    "scheduled_arrival_hour",
+    "scheduled_departure_hour",
+    "arrival_day"
+  ],
+  "categorical_features": [
+    "station_code",
+    "railway_zone",
+    "train_type"
+  ],
+  "feature_importance": [
+    {
+      "feature": "previous_station_delay",
+      "importance": 0.3726
+    },
+    {
+      "feature": "station_code",
+      "importance": 0.3462
+    },
+    {
+      "feature": "current_delay",
+      "importance": 0.1962
+    },
+    {
+      "feature": "railway_zone",
+      "importance": 0.04
+    },
+    {
+      "feature": "train_type",
+      "importance": 0.0119
+    },
+    {
+      "feature": "average_delay_last_30_days",
+      "importance": 0.0059
+    },
+    {
+      "feature": "scheduled_departure_hour",
+      "importance": 0.0042
+    },
+    {
+      "feature": "scheduled_arrival_hour",
+      "importance": 0.0037
+    },
+    {
+      "feature": "distance_from_source",
+      "importance": 0.0034
+    },
+    {
+      "feature": "station_sequence",
+      "importance": 0.0026
+    },
+    {
+      "feature": "hour_of_day",
+      "importance": 0.0023
+    },
+    {
+      "feature": "train_average_delay",
+      "importance": 0.0022
+    },
+    {
+      "feature": "station_average_delay",
+      "importance": 0.0022
+    },
+    {
+      "feature": "average_delay_last_7_days",
+      "importance": 0.002
+    },
+    {
+      "feature": "train_number",
+      "importance": 0.0014
+    }
+  ],
+  "data_paths": {
+    "train_details": "C:\\Users\\muq07\\Downloads\\projects\\train_details.csv",
+    "stations": "C:\\Users\\muq07\\Downloads\\projects\\station_full_names.csv",
+    "schedule": "C:\\Users\\muq07\\Downloads\\projects\\combined_schedule.csv",
+    "delay": "C:\\Users\\muq07\\Downloads\\projects\\combined_delay.csv"
+  }
+}

@@ -15,7 +15,7 @@ def health() -> HealthResponse:
     settings = get_settings()
     analytics = get_analytics_repository()
     engine = get_prediction_engine()
-    model_status = "trained" if engine.bundle else "baseline"
+    model_status = "trained" if engine.has_trained_model else "baseline"
     return HealthResponse(
         api_status="online",
         model_status=model_status,

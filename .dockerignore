@@ -4,7 +4,6 @@ __pycache__
 .pytest_cache
 node_modules
 frontend/dist
-#models/*.pkl
 models/explanations
 *.csv
 *.zip

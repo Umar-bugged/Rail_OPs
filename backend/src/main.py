@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.src.api.routes import router
 from backend.src.core.config import get_settings
 from backend.src.core.logging import configure_logging
+from backend.src.models.predictor import get_prediction_engine
 
 
 def create_app() -> FastAPI:
@@ -24,6 +25,7 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
     app.include_router(router, prefix=settings.api_prefix)
+    get_prediction_engine()
     return app
 
 
